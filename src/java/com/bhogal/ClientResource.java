@@ -120,10 +120,169 @@ public class ClientResource {
        
    return result;
    }
-    /**
-     * PUT method for updating or creating an instance of ClientResource
-     * @param content representation for the resource
-     */
+   @POST
+   @Path("/updateprofile")
+   @Produces(MediaType.APPLICATION_JSON)
+           public String update(@FormParam("username")String username,
+                                @FormParam("session_id")String session,
+                                @FormParam("firstname")String firstname,
+                                @FormParam("lastname")String lastname,
+                                @FormParam("address")String address,
+                                @FormParam("city")String city,
+                                @FormParam("state")String state,
+                                @FormParam("country")String country,
+                                @FormParam("pincode")String pin,
+                                @FormParam("mobile_no")String mob){
+       String result=null;
+        Properties prop = new Properties();
+       
+       
+       try
+       {
+            System.out.print("pin :"+pin+" mobile:"+mob);
+      //int pincode=Integer.parseInt(pin);	
+      //int mobile=Integer.parseInt(mob);
+     String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+     Profile prof=new Profile();
+    result= prof.updateprofile(newmap, username, session, firstname, lastname, address, city, state, country, pin, mob);
+     
+       }catch(Exception e)
+       {
+           
+       }
+       
+       
+       
+    return result;   
+   }
+    
+           
+           
+    @POST
+    @Path("/getprofile")
+    @Produces(MediaType.APPLICATION_JSON)
+     public String getProfile(@FormParam("username")String username,
+                              @FormParam("session_id")String session)
+    {
+          Properties prop = new Properties();
+          String result=null;
+        try
+        {
+              String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+        Profile p=new Profile();
+        System.out.println("start");
+        result=p.getProfile(newmap, username, session);
+        }catch(Exception c)
+        {
+            
+        }
+        return result;
+    }
+    
+     @POST
+     @Path("/addbankdetails")
+     @Produces(MediaType.APPLICATION_JSON)
+     public String addBankDetails(@FormParam("username")String username,
+                                  @FormParam("session_id")String session,
+                                  @FormParam("bank_name")String bankname,
+                                  @FormParam("account_no")String account_no,
+                                  @FormParam("ifsc_code")String ifsc_code,
+                                  @FormParam("branch")String branch,
+                                  @FormParam("branch_code")String branch_code,
+                                  @FormParam("bank_account_type")String bank_account_type
+                                  )
+     {
+         String result=null;
+        Properties prop = new Properties();
+       
+       
+       try
+       {
+           
+     
+     String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+     BankDetail bank=new BankDetail();
+    result=bank.addBankDetails(newmap, username, session, bankname, account_no, ifsc_code, branch, branch_code, bank_account_type);
+     
+       }catch(Exception e)
+       {
+           
+       }
+       
+         return result;
+     }
+    
+     @POST
+     @Path("/getbankdetails")
+     @Produces(MediaType.APPLICATION_JSON)
+     public String gettBankDetails(@FormParam("username")String username,
+                                  @FormParam("session_id")String session
+                                  )
+     {
+         String result=null;
+        Properties prop = new Properties();
+       
+       
+       try
+       {
+           
+     
+     String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+     BankDetail bank=new BankDetail();
+    result=bank.getBankDetails(newmap, username, session);
+       }catch(Exception e)
+       {
+           
+       }
+       
+         return result;
+     }
+    
+     
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {

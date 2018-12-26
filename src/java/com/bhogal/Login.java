@@ -22,7 +22,7 @@ public class Login  {
      public String login(HashMap db,String username,String password,String account) throws SQLException
     {
         JSONObject json = new JSONObject();
-        System.out.println("hhhhhh"+username+password+account);
+       // System.out.println("hhhhhh"+username+password+account);
        String session=generateSession();
         String dbusername = (String)db.get(1);
         String dbname = (String)db.get(2);
@@ -44,7 +44,7 @@ while(res.next())
 }
 if(obj.matching(temp_md5, password))
 {
-    System.out.println("---true-----");
+   // System.out.println("---true-----");
     PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("UPDATE login SET sessionid='"+session+"' WHERE username='"+username+"'");
     preparedStmt.executeUpdate();
     json.put("result","true");
@@ -60,9 +60,41 @@ else
 }
       }catch(Exception e)
       {
-          System.out.println(e.getMessage());
+          //System.out.println(e.getMessage());
       }
      return  json.toString();
     }
+     
+     public boolean IsvalidSession(HashMap db,String username,String session_id)
+     {
+         boolean result=false;
+          String dbusername = (String)db.get(1);
+        String dbname = (String)db.get(2);
+        String dbpass=(String)db.get(3);
+        String databaseurl=(String)db.get(4);
+        Register obj=new Register();
+      java.sql.Connection con=null;
+      try
+      {
+          Class.forName("com.mysql.jdbc.Driver");  
+con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusername,dbpass);  
+Statement stmt=con.createStatement();  
+ResultSet res=stmt.executeQuery("SELECT * FROM login WHERE username='"+username+"' AND sessionid='"+session_id+"'");
+
+if (!res.isBeforeFirst() ) {    
+  result=false;
+}else
+{
+  result=true;  
+}
+      }catch(Exception e)
+      {
+          
+      }
+         
+         
+      return result;   
+         
+     }
    
 }

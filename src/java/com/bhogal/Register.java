@@ -24,6 +24,7 @@ import org.json.simple.JSONObject;
 public class Register {
     public String register(HashMap hm,String username,String password,String email,String account_type)
     {
+         //System.out.println("Paramaeter"+username+password+email+account_type);
         HashMap db=hm;
         String dbusername = (String)db.get(1);
         String dbname = (String)db.get(2);
@@ -31,14 +32,16 @@ public class Register {
         String databaseurl=(String)db.get(4);
       java.sql.Connection con=null;
       String session="";
+       JSONObject json = new JSONObject();
         try
         {
+           // System.out.println("Andar aya");
 Class.forName("com.mysql.jdbc.Driver");  
 con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusername,dbpass);  
 Statement stmt=con.createStatement();  
 ResultSet rs=stmt.executeQuery("SELECT * FROM  credentials WHERE username='"+username+"'");
 int flag=0;
-
+//System.out.println("Printing flag "+rs.wasNull());
 while(rs.next()){
         flag++;
         }
@@ -46,7 +49,6 @@ while(rs.next()){
 if(flag==0)
 {
     String encryptPass=getMd5(password);
-    System.out.println("-------------------"+encryptPass);
     boolean b=matching(encryptPass, password);
     System.out.println(b);
     if(b=true)
@@ -59,39 +61,31 @@ if(flag==0)
       preparedStmt.execute();   
       con.close();
    session=login(db, username);
+   json.put("result","true");
+        json.put("message","Registration Successful");
+        json.put("username", username);
+        json.put("session",session);
    
     }
     
 }else
     {
-        session="";
-        System.out.println(generateSession());
+    json.put("result","false");
+        json.put("message","Already Registered");    
+        //System.out.println(generateSession());
     }
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+           // System.out.println(e.getMessage());
         }
-        System.out.println(dbpass+ dbusername+databaseurl);
-        JSONObject json = new JSONObject();
-        if(!session.isEmpty()){
-        json.put("result","true");
-        json.put("message","Login Successful");
-        json.put("username", username);
-        json.put("session",session);
-        }
-        else
-        {
-        json.put("result","false");
-        json.put("message","Already Registered");
-     
-        }
-        
-       return json.toString(); 
+       // System.out.println(dbpass+ dbusername+databaseurl);
+    return json.toString();
+      
     }
     public static String login(HashMap db,String username ) throws SQLException
     {
-        System.out.println("hhhhhh");
+        //System.out.println("hhhhhh");
         String session=generateSession();
         String dbusername = (String)db.get(1);
         String dbname = (String)db.get(2);
@@ -108,7 +102,7 @@ int flag=0;
 while(rs.next()){
         flag++;
         }
-          System.out.println("Flag"+flag);
+         // System.out.println("Flag"+flag);
 if(flag==0)
 {
     PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO login( username, sessionid) VALUES (?,?)");
@@ -125,7 +119,7 @@ session="";
       }
       catch(Exception e)
       {
-          System.out.println(e.getMessage());
+         // System.out.println(e.getMessage());
       }
       finally{
           con.close();
@@ -187,7 +181,7 @@ session="";
             }
         }
 
-        System.out.println(s);
+        //System.out.println(s);
     return s;
     }
 }
