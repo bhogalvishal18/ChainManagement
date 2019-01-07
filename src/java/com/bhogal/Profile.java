@@ -29,6 +29,7 @@ public class Profile {
         String dbpass=(String)db.get(3);
         String databaseurl=(String)db.get(4);
         Register obj=new Register();
+        
       java.sql.Connection con=null;
       try
       {
@@ -46,13 +47,11 @@ if(result!=true)
 else { 
   
 
-   //System.out.println("data Present ");
-    
-        PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("SELECT * FROM userdetails WHERE username='"+username+"'");
+  PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("SELECT * FROM userdetails WHERE username='"+username+"'");
    ResultSet rs=preparedStmt.executeQuery();
   if (!rs.isBeforeFirst() ) {
      // insert the user profile
-    //  System.out.println("Table is empty ");
+    
       PreparedStatement ps = (PreparedStatement) con.prepareStatement("INSERT INTO userdetails(username, firstname, lastname, address, city, state, country, pincode, mobile_no) VALUES (?,?,?,?,?,?,?,?,?)");
       ps.setString (1,username);
       ps.setString (2,firstname);
@@ -61,12 +60,12 @@ else {
         ps.setString(5,city);
           ps.setString(6,state);
             ps.setString(7,country);
-           ps.setInt(8,Integer.parseInt(pincode));
+           ps.setString(8,pincode);
              ps.setString(9,mobile);
       int o=ps.executeUpdate(); 
-    
+ 
       con.close();
-      //System.out.println("INSERTED ");
+      
       json.put("result","true");
       json.put("message","Profile Updated");
       json.put("username",username);

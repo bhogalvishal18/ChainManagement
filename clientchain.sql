@@ -24,15 +24,15 @@ DROP TABLE IF EXISTS `bankdetails`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `bankdetails` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `bank_name` varchar(255) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
   `account_no` varchar(255) DEFAULT NULL,
-  `ifsc_code` varchar(255) NOT NULL,
-  `branch` varchar(255) NOT NULL,
+  `ifsc_code` varchar(255) DEFAULT NULL,
+  `branch` varchar(255) DEFAULT NULL,
   `branch_code` varchar(255) DEFAULT NULL,
-  `account_type` varchar(255) NOT NULL,
+  `account_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `bankdetails` (
 
 LOCK TABLES `bankdetails` WRITE;
 /*!40000 ALTER TABLE `bankdetails` DISABLE KEYS */;
-INSERT INTO `bankdetails` VALUES (1,'mayank','Yes Bank','67494445903221','YESBCB009','Friends Colony','1003','Saving');
 /*!40000 ALTER TABLE `bankdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +58,7 @@ CREATE TABLE `credentials` (
   `email_id` varchar(255) NOT NULL,
   `account_type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +67,7 @@ CREATE TABLE `credentials` (
 
 LOCK TABLES `credentials` WRITE;
 /*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
-INSERT INTO `credentials` VALUES (2,'mayank','e2fc714c4727ee9395f324cd2e7f331f','xyz@abc.com','admin'),(3,'vishal1805','18f9f4e7c381deeea222a2c83e8bd133','xyz@abc.com','user');
+INSERT INTO `credentials` VALUES (3,'vishal1805','18f9f4e7c381deeea222a2c83e8bd133','xyz@abc.com','user'),(4,'Mayank2905','6c8ee658909733c81175855f82aff6b0','mayankbhogal29@gmail.com','admin');
 /*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,7 +83,7 @@ CREATE TABLE `login` (
   `username` varchar(255) NOT NULL,
   `sessionid` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +92,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'mayank','4764149806686174'),(2,'vishal1805','3169609937590979');
+INSERT INTO `login` VALUES (1,'mayank','4764149806686174'),(2,'vishal1805','3169609937590979'),(3,'Mayank2905','5620708631709880');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,17 +105,17 @@ DROP TABLE IF EXISTS `userdetails`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `userdetails` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `firstname` varchar(255) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `state` varchar(255) NOT NULL,
-  `country` varchar(255) NOT NULL,
-  `pincode` int(10) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `pincode` varchar(255) DEFAULT NULL,
   `mobile_no` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +124,7 @@ CREATE TABLE `userdetails` (
 
 LOCK TABLES `userdetails` WRITE;
 /*!40000 ALTER TABLE `userdetails` DISABLE KEYS */;
-INSERT INTO `userdetails` VALUES (1,'mayank','Mayank','Bhogal','ShastriNagar near vidhansabha ajabpur danda','Dehradun','Uttarakhand','India',248001,'8755309939');
+INSERT INTO `userdetails` VALUES (2,'Mayank2905','Mayank','Bhogal','','','','','','');
 /*!40000 ALTER TABLE `userdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -138,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-26 22:49:10
+-- Dump completed on 2019-01-07 22:50:52

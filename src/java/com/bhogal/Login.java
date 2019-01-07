@@ -51,6 +51,7 @@ if(obj.matching(temp_md5, password))
         json.put("message","Login Successful");
         json.put("username", username);
         json.put("session",session);
+        json.put("account_type",account);
 }
 else
 {

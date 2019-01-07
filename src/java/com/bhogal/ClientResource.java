@@ -42,14 +42,7 @@ public class ClientResource {
      * Retrieves representation of an instance of com.vishal.ClientResource
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/get")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
-        //TODO return proper representation object
-        //throw new UnsupportedOperationException();
-        return "hello";
-    }
+
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -135,11 +128,22 @@ public class ClientResource {
                                 @FormParam("mobile_no")String mob){
        String result=null;
         Properties prop = new Properties();
-       
+       if(username == null && username.isEmpty()) {  }
+           if(session == null && session.isEmpty()) { }
+       if(firstname == null && firstname.isEmpty()) { firstname=null; }
+       if(lastname == null && lastname.isEmpty()) { lastname=null; }
+       if(address== null && address.isEmpty()) { address=null; }
+       if(city == null && city.isEmpty()) { city=null; }
+       if(state == null && state.isEmpty()) { state=null; }
+       if(country == null && country.isEmpty()) { country=null; }
+       if(pin == null && pin.isEmpty()) { pin=null; }
+       if(mob == null && mob.isEmpty()) { mob=null; }
+
+
        
        try
        {
-            System.out.print("pin :"+pin+" mobile:"+mob);
+           // System.out.print("pin :"+pin+" mobile:"+mob);
       //int pincode=Integer.parseInt(pin);	
       //int mobile=Integer.parseInt(mob);
      String path=this.getClass().getClassLoader().getResource("").getPath();
@@ -192,7 +196,7 @@ public class ClientResource {
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
         Profile p=new Profile();
-        System.out.println("start");
+       
         result=p.getProfile(newmap, username, session);
         }catch(Exception c)
         {
@@ -217,7 +221,15 @@ public class ClientResource {
          String result=null;
         Properties prop = new Properties();
        
-       
+            if(username == null && username.isEmpty()) {  }
+           if(session == null && session.isEmpty()) { }
+       if(bankname == null && bankname.isEmpty()) { bankname=null; }
+       if(account_no == null && account_no.isEmpty()) { account_no=null; }
+       if(ifsc_code== null && ifsc_code.isEmpty()) { ifsc_code=null; }
+       if(branch == null && branch.isEmpty()) { branch=null; }
+       if(branch_code == null && branch_code.isEmpty()) { branch_code=null; }
+       if(bank_account_type == null && bank_account_type.isEmpty()) { bank_account_type=null; }
+      
        try
        {
            

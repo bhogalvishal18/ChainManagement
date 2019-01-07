@@ -24,7 +24,7 @@ public class BankDetail {
          JSONObject json=new JSONObject();
       Login login=new Login();
       check=login.IsvalidSession(db, username, session_id);
-      System.out.println("login check : "+check);
+     
       String dbusername = (String)db.get(1);
         String dbname = (String)db.get(2);
         String dbpass=(String)db.get(3);
@@ -33,7 +33,7 @@ public class BankDetail {
       java.sql.Connection con=null;
       if(!check)
       {
-          System.out.println("if kai andar aya");
+         
           json.put("result","false");
           json.put("message","Auhentication Fail");
       }else
