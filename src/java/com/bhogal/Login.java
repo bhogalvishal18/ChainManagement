@@ -37,14 +37,15 @@ con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusernam
 Statement stmt=con.createStatement();  
 ResultSet res=stmt.executeQuery("SELECT * FROM  credentials WHERE username='"+username+"' AND account_type='"+account+"'");
 int flag=0;
-String temp_md5="";
+String temp_base64="";
 while(res.next())
 {
-    temp_md5=res.getString("password");
+    temp_base64=res.getString("password");
+       
 }
-if(obj.matching(temp_md5, password))
+if(obj.matching(temp_base64, password))
 {
-   // System.out.println("---true-----");
+ 
     PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("UPDATE login SET sessionid='"+session+"' WHERE username='"+username+"'");
     preparedStmt.executeUpdate();
     json.put("result","true");
@@ -55,13 +56,14 @@ if(obj.matching(temp_md5, password))
 }
 else
 {
+    
     json.put("result","false");
         json.put("message","Login Unsuccessful");
      
 }
       }catch(Exception e)
       {
-          //System.out.println(e.getMessage());
+          System.out.println(e.getMessage());
       }
      return  json.toString();
     }

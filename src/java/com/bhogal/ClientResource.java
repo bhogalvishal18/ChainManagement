@@ -103,7 +103,7 @@ public class ClientResource {
      newmap.put(4, databaseurl);
      Register ob=new Register();
     result=ob.register(newmap, username, password, email, account);
-   System.out.println("result"+result);
+   
       
        }catch(Exception e)
        {

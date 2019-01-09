@@ -14,7 +14,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.HashMap;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 
 /**
@@ -35,22 +38,22 @@ public class Register {
        JSONObject json = new JSONObject();
         try
         {
-           // System.out.println("Andar aya");
+           
 Class.forName("com.mysql.jdbc.Driver");  
 con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusername,dbpass);  
 Statement stmt=con.createStatement();  
 ResultSet rs=stmt.executeQuery("SELECT * FROM  credentials WHERE username='"+username+"'");
 int flag=0;
-//System.out.println("Printing flag "+rs.wasNull());
+
 while(rs.next()){
         flag++;
         }
 
 if(flag==0)
 {
-    String encryptPass=getMd5(password);
+    String encryptPass=getBase64(password);
     boolean b=matching(encryptPass, password);
-    System.out.println(b);
+    //System.out.println(b);
     if(b=true)
     {
         PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO credentials( username, password, email_id, account_type) VALUES (?,?,?,?)");
@@ -77,7 +80,7 @@ if(flag==0)
         }
         catch(Exception e)
         {
-           // System.out.println(e.getMessage());
+            System.out.println(e);
         }
        // System.out.println(dbpass+ dbusername+databaseurl);
     return json.toString();
@@ -85,7 +88,7 @@ if(flag==0)
     }
     public static String login(HashMap db,String username ) throws SQLException
     {
-        //System.out.println("hhhhhh");
+        
         String session=generateSession();
         String dbusername = (String)db.get(1);
         String dbname = (String)db.get(2);
@@ -119,51 +122,32 @@ session="";
       }
       catch(Exception e)
       {
-         // System.out.println(e.getMessage());
+         System.out.println(e);
       }
       finally{
           con.close();
       }
       return session;
     }
-    public static String getMd5(String input) 
+    public static String getBase64(String input) 
     { 
-        try { 
+String encoded = DatatypeConverter.printBase64Binary(input.getBytes());
+
+return  encoded;
+
   
-            // Static getInstance method is called with hashing MD5 
-            MessageDigest md = MessageDigest.getInstance("MD5"); 
-  
-            // digest() method is called to calculate message digest 
-            //  of an input digest() return array of byte 
-            byte[] messageDigest = md.digest(input.getBytes()); 
-  
-            // Convert byte array into signum representation 
-            BigInteger no = new BigInteger(1, messageDigest); 
-  
-            // Convert message digest into hex value 
-            String hashtext = no.toString(16); 
-            while (hashtext.length() < 32) { 
-                hashtext = "0" + hashtext; 
-            } 
-            return hashtext; 
-        }  
-  
-        // For specifying wrong message digest algorithms 
-        catch (NoSuchAlgorithmException e) { 
-            throw new RuntimeException(e); 
-        } 
+          
     }
     public static boolean matching(String orig, String compare){
-    String md5 = null;
+    
     try{
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(compare.getBytes());
-        byte[] digest = md.digest();
-        md5 = new BigInteger(1, digest).toString(16);
+        
+        
+      String decoded = new String(DatatypeConverter.parseBase64Binary(orig));
+        return decoded.equals(compare);
 
-        return md5.equals(orig);
-
-    } catch (NoSuchAlgorithmException e) {
+    } catch (Exception e) {
+        System.out.println(e);
         return false;
     }
 
@@ -181,7 +165,7 @@ session="";
             }
         }
 
-        //System.out.println(s);
+        
     return s;
     }
 }
