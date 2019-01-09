@@ -32,7 +32,7 @@ public class Login  {
       java.sql.Connection con=null;
       try
       {
-          Class.forName("com.mysql.jdbc.Driver");  
+ Class.forName("com.mysql.jdbc.Driver");  
 con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusername,dbpass);  
 Statement stmt=con.createStatement();  
 ResultSet res=stmt.executeQuery("SELECT * FROM  credentials WHERE username='"+username+"' AND account_type='"+account+"'");

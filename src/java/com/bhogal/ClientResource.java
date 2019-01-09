@@ -83,7 +83,11 @@ public class ClientResource {
    public String register(@FormParam("username") String username,
                    @FormParam("password") String password,
                    @FormParam("email") String email,
-                   @FormParam("account_type") String account){
+                   @FormParam("account_type") String account,
+                   @FormParam("refer_code") String refer_code){
+       
+       
+       
         Properties prop = new Properties();
        JSONObject json = new JSONObject();
        String result="";
@@ -101,9 +105,40 @@ public class ClientResource {
      newmap.put(2, dbname);
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
-     Register ob=new Register();
-    result=ob.register(newmap, username, password, email, account);
+         Register ob=new Register();
+Referral obj=new Referral();
+     if(refer_code==null|| refer_code.isEmpty())
+       {
+           refer_code=null;
+           
+    result=ob.register(newmap, username, password, email, account,refer_code);
+
+       }else
+       {
+           
+           boolean b=obj.validaterferral(newmap, refer_code);
+           if(b==true)
+           {
+    result=ob.register(newmap, username, password, email, account,refer_code);
+    obj.update_refer_count(newmap, refer_code);
+           }else
+           {
+               JSONObject j = new JSONObject();
+               j.put("result","false");
+               j.put("message","Invalid Refer Code");
+               
+               result=j.toString();
+               
+               
+               
+           }
+           
+       }
+     
    
+      // code to generate and insert referal code
+      
+     
       
        }catch(Exception e)
        {
