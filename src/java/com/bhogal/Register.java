@@ -56,7 +56,7 @@ if(flag==0)
     //System.out.println(b);
     if(b=true)
     {
-        PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO credentials( username, password, email_id, account_type,refer_code) VALUES (?,?,?,?,?)");
+      PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO credentials( username, password, email_id, account_type,refer_code) VALUES (?,?,?,?,?)");
       preparedStmt.setString (1, username);
       preparedStmt.setString (2, encryptPass);
       preparedStmt.setString(3, email);

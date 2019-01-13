@@ -35,7 +35,9 @@ public class Referral {
     }
     
 public String generate_referral(String username)
-{
+{  
+   
+    
  StringBuilder sb=new StringBuilder();         
 String sub = username.substring(0, 3);
 Random rand = new Random();

@@ -105,7 +105,7 @@ public class ClientResource {
      newmap.put(2, dbname);
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
-         Register ob=new Register();
+Register ob=new Register();
 Referral obj=new Referral();
      if(refer_code==null|| refer_code.isEmpty())
        {

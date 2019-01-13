@@ -36,8 +36,10 @@ public class Login  {
 con=DriverManager.getConnection("jdbc:mysql://"+databaseurl+"/"+dbname,dbusername,dbpass);  
 Statement stmt=con.createStatement();  
 ResultSet res=stmt.executeQuery("SELECT * FROM  credentials WHERE username='"+username+"' AND account_type='"+account+"'");
+
 int flag=0;
 String temp_base64="";
+String refer_code="";
 while(res.next())
 {
     temp_base64=res.getString("password");
@@ -48,23 +50,31 @@ if(obj.matching(temp_base64, password))
  
     PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("UPDATE login SET sessionid='"+session+"' WHERE username='"+username+"'");
     preparedStmt.executeUpdate();
+    ResultSet result=stmt.executeQuery("SELECT * FROM  referral WHERE username='"+username+"'");
+while(result.next())
+        {
+          refer_code=result.getString("refer_code");
+        }
     json.put("result","true");
         json.put("message","Login Successful");
         json.put("username", username);
         json.put("session",session);
         json.put("account_type",account);
+        json.put("refer_code",refer_code);
 }
 else
 {
     
     json.put("result","false");
-        json.put("message","Login Unsuccessful");
+    json.put("message","Login Unsuccessful");
      
 }
       }catch(Exception e)
       {
           System.out.println(e.getMessage());
-      }
+      }  finally{
+                 con.close();
+              }
      return  json.toString();
     }
      
