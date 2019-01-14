@@ -160,7 +160,9 @@ Referral obj=new Referral();
                                 @FormParam("state")String state,
                                 @FormParam("country")String country,
                                 @FormParam("pincode")String pin,
-                                @FormParam("mobile_no")String mob){
+                                @FormParam("mobile_no")String mob,
+                                @FormParam("kyc_type")String kyc_type,
+                                @FormParam("kyc_id")String kyc_id){
        String result=null;
         Properties prop = new Properties();
        if(username == null && username.isEmpty()) {  }
@@ -173,6 +175,8 @@ Referral obj=new Referral();
        if(country == null && country.isEmpty()) { country=null; }
        if(pin == null && pin.isEmpty()) { pin=null; }
        if(mob == null && mob.isEmpty()) { mob=null; }
+         if(kyc_type == null && kyc_type.isEmpty()) { kyc_type=null; }
+             if(kyc_id == null && kyc_id.isEmpty()) { kyc_id=null; }
 
 
        
@@ -194,7 +198,7 @@ Referral obj=new Referral();
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
      Profile prof=new Profile();
-    result= prof.updateprofile(newmap, username, session, firstname, lastname, address, city, state, country, pin, mob);
+    result= prof.updateprofile(newmap, username, session, firstname, lastname, address, city, state, country, pin, mob,kyc_type,kyc_id);
      
        }catch(Exception e)
        {

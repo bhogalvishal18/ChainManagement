@@ -66,7 +66,7 @@ else
 {
     
     json.put("result","false");
-    json.put("message","Login Unsuccessful");
+    json.put("message","Invalid User and Credentials");
      
 }
       }catch(Exception e)
