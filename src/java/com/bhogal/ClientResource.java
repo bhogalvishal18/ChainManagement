@@ -83,6 +83,7 @@ public class ClientResource {
    public String register(@FormParam("username") String username,
                    @FormParam("password") String password,
                    @FormParam("email") String email,
+                   @FormParam("mobile_no") String mobile_no,
                    @FormParam("account_type") String account,
                    @FormParam("refer_code") String refer_code){
        
@@ -111,7 +112,7 @@ Referral obj=new Referral();
        {
            refer_code=null;
            
-    result=ob.register(newmap, username, password, email, account,refer_code);
+    result=ob.register(newmap, username, password, email,mobile_no, account,refer_code);
 
        }else
        {
@@ -119,7 +120,7 @@ Referral obj=new Referral();
            boolean b=obj.validaterferral(newmap, refer_code);
            if(b==true)
            {
-    result=ob.register(newmap, username, password, email, account,refer_code);
+    result=ob.register(newmap, username, password, email,mobile_no, account,refer_code);
     obj.update_refer_count(newmap, refer_code);
            }else
            {
@@ -160,7 +161,6 @@ Referral obj=new Referral();
                                 @FormParam("state")String state,
                                 @FormParam("country")String country,
                                 @FormParam("pincode")String pin,
-                                @FormParam("mobile_no")String mob,
                                 @FormParam("kyc_type")String kyc_type,
                                 @FormParam("kyc_id")String kyc_id){
        String result=null;
@@ -174,7 +174,7 @@ Referral obj=new Referral();
        if(state == null && state.isEmpty()) { state=null; }
        if(country == null && country.isEmpty()) { country=null; }
        if(pin == null && pin.isEmpty()) { pin=null; }
-       if(mob == null && mob.isEmpty()) { mob=null; }
+      // if(mob == null && mob.isEmpty()) { mob=null; }
          if(kyc_type == null && kyc_type.isEmpty()) { kyc_type=null; }
              if(kyc_id == null && kyc_id.isEmpty()) { kyc_id=null; }
 
@@ -198,7 +198,7 @@ Referral obj=new Referral();
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
      Profile prof=new Profile();
-    result= prof.updateprofile(newmap, username, session, firstname, lastname, address, city, state, country, pin, mob,kyc_type,kyc_id);
+    result= prof.updateprofile(newmap, username, session, firstname, lastname, address, city, state, country, pin,kyc_type,kyc_id);
      
        }catch(Exception e)
        {
@@ -337,5 +337,109 @@ Referral obj=new Referral();
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
+    }
+    
+    @POST
+    @Path("/send_otp")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String otp(@FormParam("mobile_no")String mobile
+                                  )
+    {
+        
+     String result=null;
+        Properties prop = new Properties();
+       
+       
+       try
+       {
+           
+     
+     String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     String otp_url=prop.getProperty("otp_url");
+      String api_key=prop.getProperty("api_key");
+      String tranx_url=prop.getProperty("tranx_url");
+     
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+      newmap.put(5, api_key);
+     newmap.put(6, otp_url);
+     newmap.put(7, tranx_url);
+     Mobile m=new Mobile();
+     String otp=m.generate_otp(newmap, mobile);
+     result=m.sendOTP(newmap, mobile, otp);
+     
+     
+     
+     
+     
+       }catch(Exception e)
+       {
+           System.err.println(e);
+       }
+        
+        
+        return result;
+        
+    }
+    @POST
+    @Path("/validate_otp")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String validotp(@FormParam("mobile_no")String mobile,
+                           @FormParam("otp")String otp
+                                  )
+    {
+        
+     String result=null;
+        Properties prop = new Properties();
+       
+       
+       try
+       {
+           
+     
+     String path=this.getClass().getClassLoader().getResource("").getPath();
+     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+     String databaseurl=prop.getProperty("databaseurl");
+     String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+     String dbpass=prop.getProperty("dbpassword");
+     String otp_url=prop.getProperty("otp_url");
+      String api_key=prop.getProperty("api_key");
+      String tranx_url=prop.getProperty("tranx_url");
+     
+     HashMap newmap = new HashMap();
+     newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+     newmap.put(3, dbpass);
+     newmap.put(4, databaseurl);
+      newmap.put(5, api_key);
+     newmap.put(6, otp_url);
+     newmap.put(7, tranx_url);
+     Mobile m=new Mobile();
+     result=m.validate_otp(newmap, mobile, otp);
+
+     
+     
+     
+     
+     
+       }catch(Exception e)
+       {
+           System.err.println(e);
+       }
+        
+        
+        return result;
+        
     }
 }

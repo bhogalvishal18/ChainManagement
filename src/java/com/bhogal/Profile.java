@@ -19,7 +19,7 @@ import org.json.simple.JSONObject;
  * @author Mayank
  */
 public class Profile {
-       public String updateprofile(HashMap db,String username,String session_id,String firstname,String lastname,String address, String city,String state,String country,String pincode,String mobile,String kyc_type,String kyc_id) throws SQLException
+       public String updateprofile(HashMap db,String username,String session_id,String firstname,String lastname,String address, String city,String state,String country,String pincode,String kyc_type,String kyc_id) throws SQLException
     {
         JSONObject json = new JSONObject();
   boolean result;
@@ -52,7 +52,7 @@ else {
   if (!rs.isBeforeFirst() ) {
      // insert the user profile
     
-      PreparedStatement ps = (PreparedStatement) con.prepareStatement("INSERT INTO userdetails(username, firstname, lastname, address, city, state, country, pincode, mobile_no,kyc_type,kyc_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+      PreparedStatement ps = (PreparedStatement) con.prepareStatement("INSERT INTO userdetails(username, firstname, lastname, address, city, state, country, pincode,kyc_type,kyc_id) VALUES (?,?,?,?,?,?,?,?,?,?)");
       ps.setString (1,username);
       ps.setString (2,firstname);
       ps.setString(3,lastname);
@@ -61,9 +61,9 @@ else {
       ps.setString(6,state);
       ps.setString(7,country);
       ps.setString(8,pincode);
-      ps.setString(9,mobile);
-      ps.setString(10, kyc_type);
-      ps.setString(11, kyc_id);
+     
+      ps.setString(9, kyc_type);
+      ps.setString(10, kyc_id);
              
       int o=ps.executeUpdate(); 
  
@@ -79,14 +79,14 @@ else {
       json.put("state",state);
       json.put("country",country);
       json.put("pincode",pincode);
-      json.put("mobile_no",mobile);
+      
       json.put("kyc_type", kyc_type);
       json.put("kyc_id", kyc_id);
       
   }  else
   {
       //update 
-      String updateTableSQL = "UPDATE userdetails SET firstname ='"+firstname+"',lastname='"+lastname+"',address='"+address+"',city='"+city+"',state='"+state+"',country='"+country+"',pincode='"+pincode+"',mobile_no='"+mobile+"',kyc_type='"+kyc_type+"',kyc_id='"+kyc_id+"' WHERE username = '"+username+"'";
+      String updateTableSQL = "UPDATE userdetails SET firstname ='"+firstname+"',lastname='"+lastname+"',address='"+address+"',city='"+city+"',state='"+state+"',country='"+country+"',pincode='"+pincode+"',kyc_type='"+kyc_type+"',kyc_id='"+kyc_id+"' WHERE username = '"+username+"'";
 PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(updateTableSQL);
 preparedStatement.executeUpdate();
   json.put("result","true");
@@ -99,7 +99,7 @@ preparedStatement.executeUpdate();
       json.put("state",state);
       json.put("country",country);
       json.put("pincode",pincode);
-      json.put("mobile_no",mobile);
+    
       json.put("kyc_type", kyc_type);
       json.put("kyc_id", kyc_id);
 
@@ -159,9 +159,9 @@ preparedStatement.executeUpdate();
                       js.put("country",rs.getString(8));
                       String pin=String.valueOf(rs.getInt(9));
                       js.put("pincode",pin);
-                      js.put("mobile_no",rs.getString(10));
-                      js.put("kyc_type", rs.getString(11));
-                      js.put("kyc_id",rs.getString(12));
+                      
+                      js.put("kyc_type", rs.getString(10));
+                      js.put("kyc_id",rs.getString(11));
                   }
               }else{
                        

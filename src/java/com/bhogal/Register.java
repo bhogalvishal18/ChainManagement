@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
  * @author Vishal
  */
 public class Register {
-    public String register(HashMap hm,String username,String password,String email,String account_type,String refer_code)
+    public String register(HashMap hm,String username,String password,String email,String mobile_no,String account_type,String refer_code)
     {
          //System.out.println("Paramaeter"+username+password+email+account_type);
         HashMap db=hm;
@@ -56,12 +56,13 @@ if(flag==0)
     //System.out.println(b);
     if(b=true)
     {
-      PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO credentials( username, password, email_id, account_type,refer_code) VALUES (?,?,?,?,?)");
+      PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement("INSERT INTO credentials( username, password, email_id, account_type,refer_code,mobile_no) VALUES (?,?,?,?,?,?)");
       preparedStmt.setString (1, username);
       preparedStmt.setString (2, encryptPass);
       preparedStmt.setString(3, email);
       preparedStmt.setString(4, account_type);
       preparedStmt.setString(5, refer_code);
+           preparedStmt.setString(6,mobile_no);
       preparedStmt.execute();  
        Referral rf=new Referral();
       String code=rf.generate_referral(username);
