@@ -101,11 +101,18 @@ public class ClientResource {
      String dbusername=prop.getProperty("dbusername");
      String dbname=prop.getProperty("dbname");
      String dbpass=prop.getProperty("dbpassword");
+      String otp_url=prop.getProperty("otp_url");
+      String api_key=prop.getProperty("api_key");
+      String tranx_url=prop.getProperty("tranx_url");
      HashMap newmap = new HashMap();
      newmap.put(1, dbusername);
      newmap.put(2, dbname);
      newmap.put(3, dbpass);
      newmap.put(4, databaseurl);
+     newmap.put(5, api_key);
+     newmap.put(6, otp_url);
+     newmap.put(7, tranx_url);
+     
 Register ob=new Register();
 Referral obj=new Referral();
      if(refer_code==null|| refer_code.isEmpty())
@@ -122,6 +129,8 @@ Referral obj=new Referral();
            {
     result=ob.register(newmap, username, password, email,mobile_no, account,refer_code);
     obj.update_refer_count(newmap, refer_code);
+    
+   
            }else
            {
                JSONObject j = new JSONObject();

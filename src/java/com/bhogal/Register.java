@@ -69,6 +69,15 @@ if(flag==0)
       rf.insertrefer(db, username, code);
       con.close();
    session=login(db, username);
+   
+   
+   // for sending transaction message 
+   
+   
+    Mobile m=new Mobile();
+    String ans=m.sendTransactionMessage(hm,mobile_no,"MANITX","MANI",username);
+    System.out.println("Transaction message :"+ans);
+    
    json.put("result","true");
         json.put("message","Registration Successful");
         json.put("username", username);
