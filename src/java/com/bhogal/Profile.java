@@ -28,7 +28,7 @@ public class Profile {
         String dbname = (String)db.get(2);
         String dbpass=(String)db.get(3);
         String databaseurl=(String)db.get(4);
-        Register obj=new Register();
+        
         
       java.sql.Connection con=null;
       try

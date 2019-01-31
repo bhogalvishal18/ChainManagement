@@ -31,26 +31,9 @@ public class Mobile {
 
 	private static final String USER_AGENT = "Mozilla/5.0";
          
-        public static void main(String...k){
-       
-             try{
-           
-   
-     HashMap newmap = new HashMap();
-     
-     newmap.put(1, "c3e72263-1da0-11e9-9ee8-0200cd936042");
-   
-     newmap.put(2, "https://2factor.in/API/R1");
-           Mobile m=new Mobile();
-            m.sendTransactionMessage(newmap,"8755309939", "MANITX", "MANI", "Vishal");
-             }catch(Exception e)
-             {
-                 
-             }
-      
-        }
 
-	public String sendTransactionMessage(HashMap hm,String to, String from,String templatename,String var) throws IOException {
+
+	public String sendTransactionMessage(HashMap hm,String to, String from,String templatename,String var1,String var2) throws IOException {
 	 JSONObject json=new JSONObject();
              HashMap db=hm;
      
@@ -59,14 +42,14 @@ public class Mobile {
         String tranx_url=(String)db.get(7);
             try{	
             
-            String fullpath=tranx_url+"?module=TRANS_SMS&apikey="+api_key+"&to="+to+"&from="+from+"&templatename="+templatename+"&var1="+var;
+            String fullpath=tranx_url+"?module=TRANS_SMS&apikey="+api_key+"&to="+to+"&from="+from+"&templatename="+templatename+"&var1="+var1+"&var2="+var2;
             URL obj = new URL(fullpath);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("GET");
                 
 		con.setRequestProperty("User-Agent", USER_AGENT);
 		int responseCode = con.getResponseCode();
-	System.out.println("GET Response Code :: " + responseCode);
+	//System.out.println("GET Response Code :: " + responseCode);
 		if (responseCode == HttpURLConnection.HTTP_OK) { // success
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));

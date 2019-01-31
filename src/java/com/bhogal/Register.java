@@ -75,9 +75,16 @@ if(flag==0)
    
    
     Mobile m=new Mobile();
-    String ans=m.sendTransactionMessage(hm,mobile_no,"MANITX","MANI",username);
+    String ans=m.sendTransactionMessage(hm,mobile_no,"WISDOM","Registration",username,code);
     System.out.println("Transaction message :"+ans);
     
+    
+    // insertion in chain 
+    Chain c=new Chain();
+    System.out.println(db.toString()+username+session+code+refer_code);
+   String out=c.insertUser(db, username, session,code, refer_code);
+    System.out.println(out);
+    // end of insertion
    json.put("result","true");
         json.put("message","Registration Successful");
         json.put("username", username);
