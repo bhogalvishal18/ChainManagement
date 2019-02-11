@@ -451,4 +451,73 @@ Referral obj=new Referral();
         return result;
         
     }
+//     @POST
+//    @Path("/getchain")
+//    @Produces(MediaType.APPLICATION_JSON)
+//   public String getchain(@FormParam("username") String username,
+//           @FormParam("session_id") String session)
+//   {
+//               Properties prop = new Properties();
+//       JSONObject json = new JSONObject();
+//       String result="";
+//       try
+//       {
+//     String path=this.getClass().getClassLoader().getResource("").getPath();
+//     InputStream stream = new FileInputStream(path+"DBConnect.properties");
+//     prop.load(stream);
+//     String databaseurl=prop.getProperty("databaseurl");
+//     String dbusername=prop.getProperty("dbusername");
+//     String dbname=prop.getProperty("dbname");
+//     String dbpass=prop.getProperty("dbpassword");
+//     HashMap newmap = new HashMap();
+//     newmap.put(1, dbusername);
+//     newmap.put(2, dbname);
+//     newmap.put(3, dbpass);
+//     newmap.put(4, databaseurl);
+//     
+//     Chain c=new Chain();
+//     result=c.getChain(username, newmap, session);
+//       }catch(Exception e)
+//               {
+//                   
+//               }
+//       return result;
+//}
+    @POST
+    @Path("/getchain")
+   @Produces(MediaType.APPLICATION_JSON)
+  public String getchain(@FormParam("username") String username,
+          @FormParam("session_id") String session)
+  {
+      String user="Vishal";
+      Properties prop = new Properties();
+       JSONObject json = new JSONObject();
+      String result="";
+              try
+      {
+    String path=this.getClass().getClassLoader().getResource("").getPath();
+    InputStream stream = new FileInputStream(path+"DBConnect.properties");
+     prop.load(stream);
+    String databaseurl=prop.getProperty("databaseurl");
+    String dbusername=prop.getProperty("dbusername");
+     String dbname=prop.getProperty("dbname");
+    String dbpass=prop.getProperty("dbpassword");
+    HashMap newmap = new HashMap();
+      newmap.put(1, dbusername);
+     newmap.put(2, dbname);
+    newmap.put(3, dbpass);
+    newmap.put(4, databaseurl);
+    
+       NewChain obj=new NewChain();
+       result=obj.retrievechain(username, newmap, session);
+      }catch(Exception e)
+      {
+          
+      }
+      
+   
+      
+     return result;
+  
+  }
 }
