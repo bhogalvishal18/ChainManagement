@@ -164,58 +164,105 @@ if(data!=true)
    {
        // parent refer is null and user chains is root
        
-       PreparedStatement preparedStmtchain = (PreparedStatement) con.prepareStatement("WITH RECURSIVE chain_list (username, refer_code,lvl) AS\n" +
+       PreparedStatement preparedStmtchain = (PreparedStatement) con.prepareStatement("WITH RECURSIVE chain_list (username, refer_code,parent_refer_code, level, path) AS\n" +
 "(\n" +
-"  SELECT username, refer_code, 0 lvl\n" +
+"  SELECT username, refer_code,parent_refer_code, 0 level, username as path\n" +
 "    FROM structure\n" +
-"    WHERE parent_refer_code IS NULL AND username='"+username+"'\n" +
+"    WHERE parent_refer_code IS NULL AND\n" +
+"    username=\'"+username+"'\n" +
 "  UNION ALL\n" +
-"  SELECT c.username, c.refer_code, cp.lvl + 1\n" +
+"  SELECT c.username, c.refer_code,c.parent_refer_code,cp.level + 1, CONCAT(cp.path, ' > ', c.username)\n" +
 "    FROM chain_list AS cp JOIN structure AS c\n" +
 "      ON cp.refer_code = c.parent_refer_code\n" +
 ")\n" +
 "SELECT * FROM chain_list\n" +
-"ORDER BY lvl;");
+"ORDER BY path;");
    ResultSet rst=preparedStmtchain.executeQuery();
     json.put("result","true");
-      
+         json.put("name",username);
+       json.put("refer_code",refer_code);
+       json.put("parent_refer_code",parent_refer_code);
+             
 JSONArray ja = new JSONArray();
-JSONArray json_arr=new JSONArray();
+
  String temp="0";
  ArrayList<Integer> arrli = new ArrayList<Integer>();
        while(rst.next())
        {
           
-         int convert = Integer.parseInt(rst.getString(3));
-      arrli.add(convert);
-      json_arr.add(convert);
-       String a=rst.getString(3);
-          
-        
-           if(temp.equals(rst.getString(3)))
-           {
-            
-           }else
-           {
-               temp=rst.getString(3);
-              
-           }
-         JSONObject jb=new JSONObject();
-        jb.put("username",rst.getString(1));
-       jb.put("refer_code",rst.getString(2));  
-       
-        jb.put("level",rst.getString(3));
+         //int convert = Integer.parseInt(rst.getString(3));
+      //arrli.add(convert);
+      //json_arr.add(convert);
+       //String a=rst.getString(3);
+       JSONObject jb=new JSONObject();
+       jb.put("name",rst.getString(1));
+       jb.put("refer_code",rst.getString(2));
+       jb.put("parent_refer_code",rst.getString(3));
+              jb.put("level",rst.getString(4));
+       // jb.put("level",rst.getString(3));
         ja.add(jb);
        }
        
-       json.put("order", json_arr);
-        json.put("depth",temp);
+       //json.put("order", json_arr);
+        //json.put("depth",temp);
       json.put("child",ja);
        
    }
    else
    {
        // parent refer is  Not null and user chains have subchild
+       
+       
+             PreparedStatement preparedStmtchain = (PreparedStatement) con.prepareStatement("WITH RECURSIVE chain_list (username, refer_code,parent_refer_code, level, path) AS\n" +
+"(\n" +
+"  SELECT username, refer_code,parent_refer_code, 0 level, username as path\n" +
+"    FROM structure\n" +
+"    WHERE parent_refer_code='"+refer_code+"'\n" +
+"  UNION ALL\n" +
+"  SELECT c.username, c.refer_code,c.parent_refer_code,cp.level + 1, CONCAT(cp.path, ' > ', c.username)\n" +
+"    FROM chain_list AS cp JOIN structure AS c\n" +
+"      ON cp.refer_code = c.parent_refer_code\n" +
+")\n" +
+"SELECT * FROM chain_list\n" +
+"ORDER BY path;");
+   ResultSet rst=preparedStmtchain.executeQuery();
+    json.put("result","true");
+         json.put("name",username);
+       json.put("refer_code",refer_code);
+       json.put("parent_refer_code",parent_refer_code);
+             
+JSONArray ja = new JSONArray();
+
+ String temp="0";
+ ArrayList<Integer> arrli = new ArrayList<Integer>();
+       while(rst.next())
+       {
+          
+         //int convert = Integer.parseInt(rst.getString(3));
+      //arrli.add(convert);
+      //json_arr.add(convert);
+       //String a=rst.getString(3);
+       JSONObject jb=new JSONObject();
+       jb.put("name",rst.getString(1));
+       jb.put("refer_code",rst.getString(2));
+       jb.put("parent_refer_code",rst.getString(3));
+              jb.put("level",rst.getString(4));
+       // jb.put("level",rst.getString(3));
+        ja.add(jb);
+       }
+       
+       //json.put("order", json_arr);
+        //json.put("depth",temp);
+      json.put("child",ja);
+        
+       
+       
+       
+       
+       
+       
+       
+       
    }
         
     }  

@@ -85,7 +85,7 @@ public class ClientResource {
                    @FormParam("email") String email,
                    @FormParam("mobile_no") String mobile_no,
                    @FormParam("account_type") String account,
-                   @FormParam("refer_code") String refer_code){
+                   @FormParam("refer_code") String parent_refer_code){
        
        
        
@@ -115,20 +115,20 @@ public class ClientResource {
      
 Register ob=new Register();
 Referral obj=new Referral();
-     if(refer_code==null|| refer_code.isEmpty())
+     if(parent_refer_code==null|| parent_refer_code.isEmpty())
        {
-           refer_code=null;
+           parent_refer_code=null;
            
-    result=ob.register(newmap, username, password, email,mobile_no, account,refer_code);
+    result=ob.register(newmap, username, password, email,mobile_no, account,parent_refer_code);
 
        }else
        {
            
-           boolean b=obj.validaterferral(newmap, refer_code);
+           boolean b=obj.validaterferral(newmap, parent_refer_code);
            if(b==true)
            {
-    result=ob.register(newmap, username, password, email,mobile_no, account,refer_code);
-    obj.update_refer_count(newmap, refer_code);
+    result=ob.register(newmap, username, password, email,mobile_no, account,parent_refer_code);
+    obj.update_refer_count(newmap, parent_refer_code);
     
    
            }else
@@ -508,7 +508,7 @@ Referral obj=new Referral();
     newmap.put(3, dbpass);
     newmap.put(4, databaseurl);
     
-       NewChain obj=new NewChain();
+       Chain obj=new Chain();
        result=obj.retrievechain(username, newmap, session);
       }catch(Exception e)
       {
