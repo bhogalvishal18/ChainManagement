@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
  * @author Vishal
  */
 public class Register {
-    public String register(HashMap hm,String username,String password,String email,String mobile_no,String account_type,String refer_code)
+    public String register(HashMap hm,String username,String password,String email,String mobile_no,String account_type,String parent_refer_code)
     {
          //System.out.println("Paramaeter"+username+password+email+account_type);
         HashMap db=hm;
@@ -62,12 +62,12 @@ if(flag==0)
       preparedStmt.setString (2, encryptPass);
       preparedStmt.setString(3, email);
       preparedStmt.setString(4, account_type);
-      preparedStmt.setString(5, refer_code);
+      preparedStmt.setString(5, parent_refer_code);
            preparedStmt.setString(6,mobile_no);
       preparedStmt.execute();  
        Referral rf=new Referral();
-      String code=rf.generate_referral(username);
-      rf.insertrefer(db, username, code);
+      String refer_code=rf.generate_referral(username);
+      rf.insertrefer(db, username, refer_code);
       con.close();
    session=login(db, username);
    
@@ -76,21 +76,21 @@ if(flag==0)
    
    
     Mobile m=new Mobile();
-    String ans=m.sendTransactionMessage(hm,mobile_no,"WISDOM","Registration",username,code);
+    String ans=m.sendTransactionMessage(hm,mobile_no,"WISDOM","Registration",username,refer_code);
     System.out.println("Transaction message :"+ans);
     
     
     // insertion in chain 
     Chain c=new Chain();
-    System.out.println(db.toString()+username+session+code+refer_code);
-   String out=c.insertUser(db, username, session,code, refer_code);
-    System.out.println(out);
+    //System.out.println(db.toString()+username+session+refer_code+parent_refer_code);
+   String out=c.insertUser(db, username, session,refer_code, parent_refer_code);
+    System.out.println("Inserted with this referal :"+out);
     // end of insertion
    json.put("result","true");
         json.put("message","Registration Successful");
         json.put("username", username);
         json.put("session",session);
-        json.put("refer_code",code);
+        json.put("refer_code",refer_code);
    
     }
     
